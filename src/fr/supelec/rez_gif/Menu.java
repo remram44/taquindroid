@@ -1,6 +1,7 @@
 package fr.supelec.rez_gif;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,7 +9,8 @@ import android.widget.Toast;
 
 public class Menu extends Activity {
     /** Called when the activity is first created. */
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
 
@@ -16,7 +18,9 @@ public class Menu extends Activity {
         play.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                Toast.makeText(Menu.this, "TODO", Toast.LENGTH_SHORT).show();
+                Intent launch_game = new Intent();
+                launch_game.setClass(Menu.this, Game.class);
+                startActivity(launch_game);
             }
         });
 
