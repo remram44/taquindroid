@@ -1,5 +1,7 @@
 package fr.supelec.rez_gif;
 
+import java.util.Random;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -35,8 +37,7 @@ public class GameView extends View {
         m_Width = width;
         m_Height = height;
 
-        // Create the blocks
-        m_Blocks = new Block[m_Width * m_Height - 1];
+        // Prepare the grid
         m_Grid = new int[m_Width][m_Height];
         for(int y = 0; y < m_Height; ++y)
             for(int x = 0; x < m_Width; ++x)
@@ -46,14 +47,41 @@ public class GameView extends View {
                 else
                 {
                     m_Grid[x][y] = y*m_Width + x;
-                    m_Blocks[y*m_Width+x] = new Block();
-                    m_Blocks[y*m_Width+x].num = y*3 + x + 1;
-                    m_Blocks[y*m_Width+x].x = x;
-                    m_Blocks[y*m_Width+x].y = y;
                 }
             }
         m_EmptyX = 2; m_EmptyY = 2;
-        // TODO : place the blocks randomly
+
+        // Move the blocks randomly
+        Random rand = new Random();
+        int[][] dirs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        for(int m = 0; m < 100; ++m)
+        {
+            int dir = rand.nextInt(4);
+            int chx = m_EmptyX + dirs[dir][0];
+            int chy = m_EmptyY + dirs[dir][1];
+            if(0 <= chx && chx < m_Width && 0 <= chy && chy < m_Height)
+            {
+                m_Grid[m_EmptyX][m_EmptyY] = m_Grid[chx][chy];
+                m_EmptyX = chx;
+                m_EmptyY = chy;
+                m_Grid[m_EmptyX][m_EmptyY] = -1;
+            }
+        }
+
+        // Create the blocks
+        m_Blocks = new Block[m_Width * m_Height - 1];
+        for(int y = 0; y < m_Height; ++y)
+            for(int x = 0; x < m_Width; ++x)
+            {
+                int id = m_Grid[x][y];
+                if(id != -1)
+                {
+                    m_Blocks[id] = new Block();
+                    m_Blocks[id].num = id + 1;
+                    m_Blocks[id].x = x;
+                    m_Blocks[id].y = y;
+                }
+            }
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh)
