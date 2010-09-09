@@ -3,6 +3,7 @@ package fr.supelec.rez_gif;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -13,8 +14,8 @@ public class GameView extends View {
 
     private class Block {
         
-        float x;
-        float y;
+        int x;
+        int y;
         int num;
         
     }
@@ -23,6 +24,8 @@ public class GameView extends View {
     private Block[] m_Blocks = null;
     private int m_ActiveBlock = -1;
     private int[][] m_Grid = null;
+    private int m_EmptyX, m_EmptyY;
+    private long m_AnimBegan;
     private final Paint m_Paint = new Paint();
     private int m_TileSize;
 
@@ -49,6 +52,8 @@ public class GameView extends View {
                     m_Blocks[y*m_Width+x].y = y;
                 }
             }
+        m_EmptyX = 2; m_EmptyY = 2;
+        // TODO : plave the blocks randomly
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh)
@@ -63,16 +68,56 @@ public class GameView extends View {
         super.onDraw(canvas);
         if(m_Blocks != null)
         {
+            // Animation for the active block
+            if(m_ActiveBlock != -1 && SystemClock.uptimeMillis() - m_AnimBegan < 200)
+            {
+                int start_x, start_y;
+                start_x = m_Blocks[m_ActiveBlock].x;
+                start_y = m_Blocks[m_ActiveBlock].y;
+                float x = start_x + (m_EmptyX - start_x) * (SystemClock.uptimeMillis() - m_AnimBegan)/200.f;
+                float y = start_y + (m_EmptyY - start_y) * (SystemClock.uptimeMillis() - m_AnimBegan)/200.f;
+
+                int x1 = (int)Math.round((x  ) * m_TileSize) + 2;
+                int x2 = (int)Math.round((x+1) * m_TileSize) - 2;
+                int y1 = (int)Math.round((y  ) * m_TileSize) + 2;
+                int y2 = (int)Math.round((y+1) * m_TileSize) - 2;
+                float[] points = {x1, y1, x2, y1,
+                        x2, y1, x2, y2,
+                        x2, y2, x1, y2,
+                        x1, y2, x1, y1
+                };
+                canvas.drawLines(points, m_Paint);
+
+                m_Paint.setColor(0xFFFF0000);
+                canvas.drawText(Integer.toString(m_Blocks[m_ActiveBlock].num),
+                        (x+0.5f)*m_TileSize, (y+0.5f)*m_TileSize,
+                        m_Paint);
+                invalidate(); // continue animating...
+            }
+            // Animation ended
+            else if(m_ActiveBlock != -1)
+            {
+                int old_x = m_Blocks[m_ActiveBlock].x;
+                int old_y = m_Blocks[m_ActiveBlock].y;
+                m_Blocks[m_ActiveBlock].x = m_EmptyX;
+                m_Blocks[m_ActiveBlock].y = m_EmptyY;
+                m_EmptyX = old_x;
+                m_EmptyY = old_y;
+                m_Grid[m_EmptyX][m_EmptyY] = -1;
+                m_Grid[m_Blocks[m_ActiveBlock].x][m_Blocks[m_ActiveBlock].y] = m_ActiveBlock;
+                m_ActiveBlock = -1;
+            }
+            
+            // Draw the other blocks
             for(int i = 0; i < m_Blocks.length; ++i)
             {
                 if(m_ActiveBlock == i)
-                    m_Paint.setColor(0xFFFF0000);
-                else
-                    m_Paint.setColor(0xFFFFFFFF);
-                int x1 = (int)Math.round(m_Blocks[i].x  ) * m_TileSize + 2;
-                int x2 = (int)Math.round(m_Blocks[i].x+1) * m_TileSize - 2;
-                int y1 = (int)Math.round(m_Blocks[i].y  ) * m_TileSize + 2;
-                int y2 = (int)Math.round(m_Blocks[i].y+1) * m_TileSize - 2;
+                    continue;
+                m_Paint.setColor(0xFFFFFFFF);
+                int x1 = (m_Blocks[i].x  ) * m_TileSize + 2;
+                int x2 = (m_Blocks[i].x+1) * m_TileSize - 2;
+                int y1 = (m_Blocks[i].y  ) * m_TileSize + 2;
+                int y2 = (m_Blocks[i].y+1) * m_TileSize - 2;
                 float[] points = {x1, y1, x2, y1,
                         x2, y1, x2, y2,
                         x2, y2, x1, y2,
@@ -90,12 +135,7 @@ public class GameView extends View {
 
     public boolean onTouchEvent(MotionEvent event)
     {
-        if(event.getAction() == MotionEvent.ACTION_UP)
-        {
-            m_ActiveBlock = -1;
-            invalidate();
-        }
-        else if(event.getAction() == MotionEvent.ACTION_DOWN)
+        if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
             // Find the correct block
             int x = (int)Math.round(event.getX());
@@ -104,9 +144,15 @@ public class GameView extends View {
             {
                 int u = (int)Math.floor(x/m_TileSize);
                 int v = (int)Math.floor(y/m_TileSize);
-                m_ActiveBlock = m_Grid[u][v];
-                GameView.this.invalidate();
-                return true;
+                // If this block can move...
+                if(m_ActiveBlock == -1
+                 && Math.abs(u-m_EmptyX) + Math.abs(v-m_EmptyY) == 1)
+                {
+                    m_ActiveBlock = m_Grid[u][v];
+                    m_AnimBegan = SystemClock.uptimeMillis();
+                    GameView.this.invalidate();
+                    return true;
+                }
             }
         }
         return false;
