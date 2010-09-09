@@ -22,6 +22,12 @@ public class GameView extends View {
         
     }
 
+    public interface EndGameListener {
+
+        public void onGameEnded();
+
+    }
+
     private int m_Width, m_Height;
     private Block[] m_Blocks = null;
     private int m_ActiveBlock = -1;
@@ -30,6 +36,7 @@ public class GameView extends View {
     private long m_AnimBegan;
     private final Paint m_Paint = new Paint();
     private int m_TileSize;
+    private EndGameListener m_EndGameListener;
 
     public GameView(Context context, int width, int height)
     {
@@ -82,6 +89,11 @@ public class GameView extends View {
                     m_Blocks[id].y = y;
                 }
             }
+    }
+
+    public void setEndGameListener(EndGameListener listener)
+    {
+        m_EndGameListener = listener;
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh)
@@ -141,6 +153,7 @@ public class GameView extends View {
                 m_Grid[m_EmptyX][m_EmptyY] = -1;
                 m_Grid[m_Blocks[m_ActiveBlock].x][m_Blocks[m_ActiveBlock].y] = m_ActiveBlock;
                 m_ActiveBlock = -1;
+                checkEnd();
             }
             
             // Draw the other blocks
@@ -177,6 +190,19 @@ public class GameView extends View {
             }
         }
         return false;
+    }
+
+    private void checkEnd()
+    {
+        for(int y = 0; y < m_Height; ++y)
+            for(int x = 0; x < m_Width; ++x)
+            {
+                if(x == m_Width-1 && y == m_Height-1)
+                    continue;
+                if(m_Grid[x][y] != y*m_Width + x)
+                    return ;
+            }
+        m_EndGameListener.onGameEnded();
     }
 
 }

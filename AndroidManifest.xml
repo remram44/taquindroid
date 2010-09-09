@@ -12,6 +12,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Game"/>
+        <activity android:name=".EndGame"/>
     </application>
 
     <uses-sdk android:minSdkVersion="3"/>
