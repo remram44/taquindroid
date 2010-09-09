@@ -53,7 +53,7 @@ public class GameView extends View {
                 }
             }
         m_EmptyX = 2; m_EmptyY = 2;
-        // TODO : plave the blocks randomly
+        // TODO : place the blocks randomly
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh)
@@ -61,6 +61,26 @@ public class GameView extends View {
         int tileSizeX = (int)Math.floor(w/m_Width);
         int tileSizeY = (int)Math.floor(h/m_Height);
         m_TileSize = Math.min(tileSizeX, tileSizeY);
+    }
+
+    private void drawBlock(Canvas canvas, float x, float y, String caption, int bordercolor, int captioncolor)
+    {
+        int x1 = (int)Math.round((x  ) * m_TileSize) + 2;
+        int x2 = (int)Math.round((x+1) * m_TileSize) - 2;
+        int y1 = (int)Math.round((y  ) * m_TileSize) + 2;
+        int y2 = (int)Math.round((y+1) * m_TileSize) - 2;
+        float[] points = {x1, y1, x2, y1,
+                x2, y1, x2, y2,
+                x2, y2, x1, y2,
+                x1, y2, x1, y1
+        };
+        m_Paint.setColor(bordercolor);
+        canvas.drawLines(points, m_Paint);
+
+        m_Paint.setColor(captioncolor);
+        canvas.drawText(caption,
+                (x+0.5f)*m_TileSize, (y+0.5f)*m_TileSize,
+                m_Paint);
     }
 
     public void onDraw(Canvas canvas)
@@ -77,21 +97,8 @@ public class GameView extends View {
                 float x = start_x + (m_EmptyX - start_x) * (SystemClock.uptimeMillis() - m_AnimBegan)/200.f;
                 float y = start_y + (m_EmptyY - start_y) * (SystemClock.uptimeMillis() - m_AnimBegan)/200.f;
 
-                int x1 = (int)Math.round((x  ) * m_TileSize) + 2;
-                int x2 = (int)Math.round((x+1) * m_TileSize) - 2;
-                int y1 = (int)Math.round((y  ) * m_TileSize) + 2;
-                int y2 = (int)Math.round((y+1) * m_TileSize) - 2;
-                float[] points = {x1, y1, x2, y1,
-                        x2, y1, x2, y2,
-                        x2, y2, x1, y2,
-                        x1, y2, x1, y1
-                };
-                canvas.drawLines(points, m_Paint);
-
-                m_Paint.setColor(0xFFFF0000);
-                canvas.drawText(Integer.toString(m_Blocks[m_ActiveBlock].num),
-                        (x+0.5f)*m_TileSize, (y+0.5f)*m_TileSize,
-                        m_Paint);
+                drawBlock(canvas, x, y,
+                        Integer.toString(m_Blocks[m_ActiveBlock].num), 0xFFFF0000, 0xFF0000FF);
                 invalidate(); // continue animating...
             }
             // Animation ended
@@ -113,22 +120,8 @@ public class GameView extends View {
             {
                 if(m_ActiveBlock == i)
                     continue;
-                m_Paint.setColor(0xFFFFFFFF);
-                int x1 = (m_Blocks[i].x  ) * m_TileSize + 2;
-                int x2 = (m_Blocks[i].x+1) * m_TileSize - 2;
-                int y1 = (m_Blocks[i].y  ) * m_TileSize + 2;
-                int y2 = (m_Blocks[i].y+1) * m_TileSize - 2;
-                float[] points = {x1, y1, x2, y1,
-                        x2, y1, x2, y2,
-                        x2, y2, x1, y2,
-                        x1, y2, x1, y1
-                };
-                canvas.drawLines(points, m_Paint);
-
-                m_Paint.setColor(0xFF0000FF);
-                canvas.drawText(Integer.toString(m_Blocks[i].num),
-                        (m_Blocks[i].x+0.5f)*m_TileSize, (m_Blocks[i].y+0.5f)*m_TileSize,
-                        m_Paint);
+                drawBlock(canvas, m_Blocks[i].x, m_Blocks[i].y,
+                        Integer.toString(m_Blocks[i].num), 0xFFFFFFFF, 0xFF0000FF);
             }
         }
     }
