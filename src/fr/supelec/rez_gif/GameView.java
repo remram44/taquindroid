@@ -3,6 +3,8 @@ package fr.supelec.rez_gif;
 import java.util.Random;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.SystemClock;
@@ -18,7 +20,7 @@ public class GameView extends View {
         
         int x;
         int y;
-        int num;
+        Bitmap bitmap;
         
     }
 
@@ -37,10 +39,12 @@ public class GameView extends View {
     private final Paint m_Paint = new Paint();
     private int m_TileSize;
     private EndGameListener m_EndGameListener;
+    private Context m_Context;
 
     public GameView(Context context, int width, int height)
     {
         super(context);
+        m_Context = context;
         m_Width = width;
         m_Height = height;
 
@@ -61,7 +65,7 @@ public class GameView extends View {
         // Move the blocks randomly
         Random rand = new Random();
         int[][] dirs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-        for(int m = 0; m < 100; ++m)
+        for(int m = 0; m < 500; ++m)
         {
             int dir = rand.nextInt(4);
             int chx = m_EmptyX + dirs[dir][0];
@@ -76,6 +80,9 @@ public class GameView extends View {
         }
 
         // Create the blocks
+        Bitmap image = BitmapFactory.decodeResource(m_Context.getResources(), R.drawable.image);
+        int w = image.getWidth()/m_Width;
+        int h = image.getHeight()/m_Height;
         m_Blocks = new Block[m_Width * m_Height - 1];
         for(int y = 0; y < m_Height; ++y)
             for(int x = 0; x < m_Width; ++x)
@@ -84,9 +91,11 @@ public class GameView extends View {
                 if(id != -1)
                 {
                     m_Blocks[id] = new Block();
-                    m_Blocks[id].num = id + 1;
                     m_Blocks[id].x = x;
                     m_Blocks[id].y = y;
+                    int iy = id / m_Width;
+                    int ix = id % m_Width;
+                    m_Blocks[id].bitmap = Bitmap.createBitmap(image, ix*w, iy*h, w, h);
                 }
             }
     }
@@ -103,8 +112,10 @@ public class GameView extends View {
         m_TileSize = Math.min(tileSizeX, tileSizeY);
     }
 
-    private void drawBlock(Canvas canvas, float x, float y, String caption, int bordercolor, int captioncolor)
+    private void drawBlock(Canvas canvas, float x, float y, Bitmap bitmap, int bordercolor)
     {
+        canvas.drawBitmap(bitmap,x*m_TileSize, y*m_TileSize, m_Paint);
+
         int x1 = (int)Math.round((x  ) * m_TileSize) + 2;
         int x2 = (int)Math.round((x+1) * m_TileSize) - 2;
         int y1 = (int)Math.round((y  ) * m_TileSize) + 2;
@@ -116,11 +127,6 @@ public class GameView extends View {
         };
         m_Paint.setColor(bordercolor);
         canvas.drawLines(points, m_Paint);
-
-        m_Paint.setColor(captioncolor);
-        canvas.drawText(caption,
-                (x+0.5f)*m_TileSize, (y+0.5f)*m_TileSize,
-                m_Paint);
     }
 
     public void onDraw(Canvas canvas)
@@ -138,7 +144,7 @@ public class GameView extends View {
                 float y = start_y + (m_EmptyY - start_y) * (SystemClock.uptimeMillis() - m_AnimBegan)/200.f;
 
                 drawBlock(canvas, x, y,
-                        Integer.toString(m_Blocks[m_ActiveBlock].num), 0xFFFF0000, 0xFF0000FF);
+                        m_Blocks[m_ActiveBlock].bitmap, 0xFFFF0000);
                 invalidate(); // continue animating...
             }
             // Animation ended
@@ -162,7 +168,7 @@ public class GameView extends View {
                 if(m_ActiveBlock == i)
                     continue;
                 drawBlock(canvas, m_Blocks[i].x, m_Blocks[i].y,
-                        Integer.toString(m_Blocks[i].num), 0xFFFFFFFF, 0xFF0000FF);
+                        m_Blocks[i].bitmap, 0xFFFFFFFF);
             }
         }
     }
