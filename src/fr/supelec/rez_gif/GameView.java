@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,7 +38,9 @@ public class GameView extends View {
     private int m_EmptyX, m_EmptyY;
     private long m_AnimBegan;
     private final Paint m_Paint = new Paint();
-    private int m_TileSize;
+    private int m_TileSizeX;
+    private int m_TileSizeY;
+    private float m_TileAspect;
     private EndGameListener m_EndGameListener;
     private Context m_Context;
 
@@ -83,6 +86,7 @@ public class GameView extends View {
         Bitmap image = BitmapFactory.decodeResource(m_Context.getResources(), R.drawable.image);
         int w = image.getWidth()/m_Width;
         int h = image.getHeight()/m_Height;
+        m_TileAspect = (1.f*h)/w;
         m_Blocks = new Block[m_Width * m_Height - 1];
         for(int y = 0; y < m_Height; ++y)
             for(int x = 0; x < m_Width; ++x)
@@ -98,6 +102,9 @@ public class GameView extends View {
                     m_Blocks[id].bitmap = Bitmap.createBitmap(image, ix*w, iy*h, w, h);
                 }
             }
+
+        // Recompute the tile size now that the aspect ratio of the tiles is available
+        onSizeChanged(getWidth(), getHeight(), 0, 0);
     }
 
     public void setEndGameListener(EndGameListener listener)
@@ -107,19 +114,25 @@ public class GameView extends View {
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh)
     {
-        int tileSizeX = (int)Math.floor(w/m_Width);
-        int tileSizeY = (int)Math.floor(h/m_Height);
-        m_TileSize = Math.min(tileSizeX, tileSizeY);
+        if(m_TileAspect != 0)
+        {
+            float tileSizeX = w/m_Width;
+            float tileSizeY = h/m_Height;
+            m_TileSizeX = (int)Math.floor(Math.min(tileSizeX, tileSizeY/m_TileAspect));
+            m_TileSizeY = (int)Math.floor(Math.min(tileSizeX*m_TileAspect, tileSizeY));
+        }
     }
 
     private void drawBlock(Canvas canvas, float x, float y, Bitmap bitmap, int bordercolor)
     {
-        canvas.drawBitmap(bitmap,x*m_TileSize, y*m_TileSize, m_Paint);
+        float rx = x*m_TileSizeX;
+        float ry = y*m_TileSizeY;
+        canvas.drawBitmap(bitmap, null, new RectF(rx, ry, rx+m_TileSizeX, ry+m_TileSizeY), m_Paint);
 
-        int x1 = (int)Math.round((x  ) * m_TileSize) + 2;
-        int x2 = (int)Math.round((x+1) * m_TileSize) - 2;
-        int y1 = (int)Math.round((y  ) * m_TileSize) + 2;
-        int y2 = (int)Math.round((y+1) * m_TileSize) - 2;
+        int x1 = (int)Math.round((x  ) * m_TileSizeX) + 2;
+        int x2 = (int)Math.round((x+1) * m_TileSizeX) - 2;
+        int y1 = (int)Math.round((y  ) * m_TileSizeY) + 2;
+        int y2 = (int)Math.round((y+1) * m_TileSizeY) - 2;
         float[] points = {x1, y1, x2, y1,
                 x2, y1, x2, y2,
                 x2, y2, x1, y2,
@@ -180,10 +193,10 @@ public class GameView extends View {
             // Find the correct block
             int x = (int)Math.round(event.getX());
             int y = (int)Math.round(event.getY());
-            if(x < m_Width * m_TileSize && y < m_Height * m_TileSize)
+            if(x < m_Width * m_TileSizeX && y < m_Height * m_TileSizeY)
             {
-                int u = (int)Math.floor(x/m_TileSize);
-                int v = (int)Math.floor(y/m_TileSize);
+                int u = (int)Math.floor(x/m_TileSizeX);
+                int v = (int)Math.floor(y/m_TileSizeY);
                 // If this block can move...
                 if(m_ActiveBlock == -1
                  && Math.abs(u-m_EmptyX) + Math.abs(v-m_EmptyY) == 1)
