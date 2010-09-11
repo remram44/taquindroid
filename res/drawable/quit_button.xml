@@ -6,11 +6,11 @@
         <shape>
             <gradient
                 android:startColor="#000000"
-                android:endColor="#ff3f3f"
+                android:endColor="#ff1f1f"
                 android:angle="270" />
             <stroke
                 android:width="3dp"
-                android:color="#ff3f3f" />
+                android:color="#ff1f1f" />
             <corners
                 android:radius="6dp" />
             <padding
@@ -25,11 +25,11 @@
         <shape>
             <gradient
                 android:startColor="#ffffff"
-                android:endColor="#ff3f3f"
+                android:endColor="#ff1f1f"
                 android:angle="270" />
             <stroke
                 android:width="3dp"
-                android:color="#ff3f3f" />
+                android:color="#ff1f1f" />
             <corners
                 android:radius="6dp" />
             <padding

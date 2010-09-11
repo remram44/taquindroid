@@ -44,7 +44,7 @@ public class GameView extends View {
     private EndGameListener m_EndGameListener;
     private Context m_Context;
 
-    public GameView(Context context, int width, int height)
+    public GameView(Context context, String image_file, int width, int height)
     {
         super(context);
         m_Context = context;
@@ -82,8 +82,12 @@ public class GameView extends View {
             }
         }
 
+        // Load the wanted image, or the bundled one
+        Bitmap image = BitmapFactory.decodeFile(image_file);
+        if(image == null)
+            image = BitmapFactory.decodeResource(m_Context.getResources(), R.drawable.image);
+
         // Create the blocks
-        Bitmap image = BitmapFactory.decodeResource(m_Context.getResources(), R.drawable.image);
         int w = image.getWidth()/m_Width;
         int h = image.getHeight()/m_Height;
         m_TileAspect = (1.f*h)/w;

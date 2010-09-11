@@ -11,6 +11,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".Options"/>
         <activity android:name=".Game"/>
         <activity android:name=".EndGame"/>
     </application>
