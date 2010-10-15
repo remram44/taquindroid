@@ -18,6 +18,11 @@ public class Options extends Activity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.options);
+
+        // Load the current parameters
+        Intent intent = getIntent();
+        m_SelectedImage = intent.getData();
+        updateImage();
         
         final Button change_image = (Button) findViewById(R.id.change_image);
         change_image.setOnClickListener(new View.OnClickListener() {
