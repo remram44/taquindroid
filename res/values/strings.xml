@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
     <string name="app_name">Taquindroid</string>
+    <string name="end_infos">Puzzle %dx%d solved!</string>
 </resources>

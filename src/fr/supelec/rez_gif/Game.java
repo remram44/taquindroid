@@ -9,6 +9,10 @@ import android.provider.MediaStore;
 
 public class Game extends Activity implements GameView.EndGameListener {
 
+    private Uri m_SelectedImage = null;
+    private int m_Width;
+    private int m_Height;
+    
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState)
     {
@@ -16,16 +20,16 @@ public class Game extends Activity implements GameView.EndGameListener {
         
         // Get the parameters from the Indent
         Intent intent = getIntent();
-        int width = intent.getIntExtra("width", 3);
-        int height = intent.getIntExtra("height", 3);
+        m_Width = intent.getIntExtra("width", 3);
+        m_Height = intent.getIntExtra("height", 3);
         
         // Find the requested image
-        Uri selectedImage = intent.getData();
+        m_SelectedImage = intent.getData();
         String image_file = null;
-        if(selectedImage != null)
+        if(m_SelectedImage != null)
         {
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            Cursor cursor = getContentResolver().query(m_SelectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             image_file = cursor.getString(columnIndex);
@@ -33,7 +37,7 @@ public class Game extends Activity implements GameView.EndGameListener {
         }
         
         // Set up the view
-        GameView game = new GameView(this, image_file, width, height);
+        GameView game = new GameView(this, image_file, m_Width, m_Height);
         game.setEndGameListener(this);
         setContentView(game);
     }
@@ -42,6 +46,9 @@ public class Game extends Activity implements GameView.EndGameListener {
     {
         Intent end_game = new Intent();
         end_game.setClass(this, EndGame.class);
+        end_game.setData(m_SelectedImage);
+        end_game.putExtra("width", m_Width);
+        end_game.putExtra("width", m_Height);
         startActivity(end_game);
         finish();
     }
