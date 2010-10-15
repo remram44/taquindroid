@@ -10,7 +10,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Play"
+            android:text="@string/menu_play"
             android:textSize="20sp"
             android:background="@drawable/play_button"/>
     <FrameLayout android:layout_weight="2"
@@ -20,7 +20,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Options"
+            android:text="@string/menu_options"
             android:textSize="20sp"
             android:background="@drawable/scores_button"/>
     <FrameLayout android:layout_weight="2"
@@ -30,7 +30,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Scores"
+            android:text="@string/menu_scores"
             android:textSize="20sp"
             android:background="@drawable/scores_button"/>
     <FrameLayout android:layout_weight="2"
@@ -40,7 +40,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Quit"
+            android:text="@string/menu_quit"
             android:textSize="20sp"
             android:background="@drawable/quit_button"/>
     <FrameLayout android:layout_weight="1"

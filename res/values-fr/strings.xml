@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Taquindroid</string>
-    <string name="end_infos">Puzzle %dx%d solved!</string>
-    <string name="menu_play">Play</string>
+    <string name="end_infos">Puzzle %dx%d résolu !</string>
+    <string name="menu_play">Jouer</string>
     <string name="menu_options">Options</string>
     <string name="menu_scores">Scores</string>
-    <string name="menu_quit">Quit</string>
+    <string name="menu_quit">Quitter</string>
 </resources>
