@@ -48,7 +48,7 @@ public class Game extends Activity implements GameView.EndGameListener {
         end_game.setClass(this, EndGame.class);
         end_game.setData(m_SelectedImage);
         end_game.putExtra("width", m_Width);
-        end_game.putExtra("width", m_Height);
+        end_game.putExtra("height", m_Height);
         startActivity(end_game);
         finish();
     }
