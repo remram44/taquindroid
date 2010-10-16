@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class Menu extends Activity {
 
@@ -45,14 +44,6 @@ public class Menu extends Activity {
                 change_options.putExtra("width", m_Width);
                 change_options.putExtra("height", m_Height);
                 startActivityForResult(change_options, CHANGE_OPTIONS);
-            }
-        });
-
-        final Button scores = (Button) findViewById(R.id.menu_scores);
-        scores.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                Toast.makeText(Menu.this, "TODO", Toast.LENGTH_SHORT).show();
             }
         });
 
