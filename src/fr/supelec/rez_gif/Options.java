@@ -1,6 +1,8 @@
 package fr.supelec.rez_gif;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +14,10 @@ public class Options extends Activity {
 
     protected static final int REQ_PICK_IMAGE = 1;
     protected Uri m_SelectedImage = null;
+    private int m_Size;
+    public static final int MIN_SIZE = 3;
+    public static final int MAX_SIZE = 8;
+    public static final int DEFAULT_SIZE = 3;
 
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState)
@@ -23,6 +29,30 @@ public class Options extends Activity {
         Intent intent = getIntent();
         m_SelectedImage = intent.getData();
         updateImage();
+        m_Size = intent.getIntExtra("width", DEFAULT_SIZE);
+        if(m_Size < MIN_SIZE || m_Size > MAX_SIZE)
+            m_Size = DEFAULT_SIZE;
+        
+        // The control used to change the grid's size
+        final Button change_size = (Button) findViewById(R.id.change_size);
+        final String[] sizes = getResources().getStringArray(R.array.change_size);
+        change_size.setText(sizes[m_Size - MIN_SIZE]);
+        change_size.setOnClickListener(new View.OnClickListener() {
+           public void onClick(View v)
+           {
+               // Choose the new size
+               AlertDialog.Builder builder = new AlertDialog.Builder(Options.this);
+               builder.setTitle(R.string.change_size_title);
+               builder.setItems(sizes, new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int item)
+                   {
+                       m_Size = MIN_SIZE + item;
+                       change_size.setText(sizes[item]);
+                   }
+               });
+               builder.create().show();
+           }
+        });
         
         final Button change_image = (Button) findViewById(R.id.change_image);
         change_image.setOnClickListener(new View.OnClickListener() {
@@ -49,8 +79,8 @@ public class Options extends Activity {
             {
                 Intent data = new Intent();
                 data.setData(m_SelectedImage);
-                data.putExtra("width", 3);
-                data.putExtra("height", 3);
+                data.putExtra("width", m_Size);
+                data.putExtra("height", m_Size);
                 Options.this.setResult(RESULT_OK, data);
                 Options.this.finish();
             }

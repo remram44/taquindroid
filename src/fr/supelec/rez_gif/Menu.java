@@ -64,7 +64,11 @@ public class Menu extends Activity {
         {
         case CHANGE_OPTIONS:
             if(result_code == RESULT_OK)
+            {
                 m_ImageFile = data.getData();
+                m_Width = data.getIntExtra("width", Options.DEFAULT_SIZE);
+                m_Height = data.getIntExtra("height", Options.DEFAULT_SIZE);
+            }
             break;
         }
     }

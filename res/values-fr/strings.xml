@@ -6,4 +6,15 @@
     <string name="menu_options">Options</string>
     <string name="menu_scores">Scores</string>
     <string name="menu_quit">Quitter</string>
+    <string name="options_cancel">Annuler</string>
+    <string name="options_ok">Ok</string>
+    <string name="change_size_title">Choisissez la taille</string>
+    <string-array name="change_size">
+        <item>Taille : 3x3</item>
+        <item>Taille : 4x4</item>
+        <item>Taille : 5x5</item>
+        <item>Taille : 6x6</item>
+        <item>Taille : 7x7</item>
+        <item>Taille : 8x8</item>
+    </string-array>
 </resources>

@@ -59,16 +59,14 @@ public class GameView extends View {
                 if(y == m_Height-1 && x == m_Width - 1)
                     m_Grid[x][y] = -1;
                 else
-                {
                     m_Grid[x][y] = y*m_Width + x;
-                }
             }
-        m_EmptyX = 2; m_EmptyY = 2;
+        m_EmptyX = m_Width - 1; m_EmptyY = m_Height - 1;
 
         // Move the blocks randomly
         Random rand = new Random();
         int[][] dirs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-        for(int m = 0; m < 500; ++m)
+        for(int m = 0; m < 1000; ++m)
         {
             int dir = rand.nextInt(4);
             int chx = m_EmptyX + dirs[dir][0];

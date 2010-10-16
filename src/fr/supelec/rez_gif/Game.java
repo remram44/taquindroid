@@ -20,8 +20,8 @@ public class Game extends Activity implements GameView.EndGameListener {
         
         // Get the parameters from the Indent
         Intent intent = getIntent();
-        m_Width = intent.getIntExtra("width", 3);
-        m_Height = intent.getIntExtra("height", 3);
+        m_Width = intent.getIntExtra("width", Options.DEFAULT_SIZE);
+        m_Height = intent.getIntExtra("height", Options.DEFAULT_SIZE);
         
         // Find the requested image
         m_SelectedImage = intent.getData();
