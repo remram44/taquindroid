@@ -1,4 +1,4 @@
-package fr.supelec.rez_gif;
+package fr.remram.taquindroid;
 
 import android.app.Activity;
 import android.app.AlertDialog;
