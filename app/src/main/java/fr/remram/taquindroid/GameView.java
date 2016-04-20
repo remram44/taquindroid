@@ -26,7 +26,7 @@ public class GameView extends View {
 
     public interface EndGameListener {
 
-        public void onGameEnded();
+        void onGameEnded();
 
     }
 
@@ -123,10 +123,10 @@ public class GameView extends View {
         float ry = y*m_TileSizeY;
         canvas.drawBitmap(bitmap, null, new RectF(rx, ry, rx+m_TileSizeX, ry+m_TileSizeY), m_Paint);
 
-        int x1 = (int)Math.round((x  ) * m_TileSizeX) + 2;
-        int x2 = (int)Math.round((x+1) * m_TileSizeX) - 2;
-        int y1 = (int)Math.round((y  ) * m_TileSizeY) + 2;
-        int y2 = (int)Math.round((y+1) * m_TileSizeY) - 2;
+        int x1 = Math.round((x  ) * m_TileSizeX) + 2;
+        int x2 = Math.round((x+1) * m_TileSizeX) - 2;
+        int y1 = Math.round((y  ) * m_TileSizeY) + 2;
+        int y2 = Math.round((y+1) * m_TileSizeY) - 2;
         float[] points = {x1, y1, x2, y1,
                 x2, y1, x2, y2,
                 x2, y2, x1, y2,
@@ -185,8 +185,8 @@ public class GameView extends View {
         if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
             // Find the correct block
-            int x = (int)Math.round(event.getX());
-            int y = (int)Math.round(event.getY());
+            int x = Math.round(event.getX());
+            int y = Math.round(event.getY());
             if(x < m_Width * m_TileSizeX && y < m_Height * m_TileSizeY)
             {
                 int u = (int)Math.floor(x/m_TileSizeX);
