@@ -1,0 +1,12 @@
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+*.iml
+
+*.gradle
+/build
+/app/build
+/captures
+
+.DS_Store
+Thumbs.db
