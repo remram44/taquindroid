@@ -58,9 +58,20 @@ public class Options extends Activity {
         change_image.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent, REQ_PICK_IMAGE);
+                // http://stackoverflow.com/a/25268677/711380
+                if(android.os.Build.VERSION.SDK_INT >= 19)
+                {
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, REQ_PICK_IMAGE);
+                }
+                else
+                {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, REQ_PICK_IMAGE);
+                }
             }
         });
         
