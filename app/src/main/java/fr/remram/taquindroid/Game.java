@@ -2,10 +2,15 @@ package fr.remram.taquindroid;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.os.ParcelFileDescriptor;
+import android.util.Log;
+
+import java.io.FileDescriptor;
+import java.io.IOException;
 
 public class Game extends Activity implements GameView.EndGameListener {
 
@@ -25,19 +30,27 @@ public class Game extends Activity implements GameView.EndGameListener {
         
         // Find the requested image
         m_SelectedImage = intent.getData();
-        String image_file = null;
+        Bitmap image = null;
         if(m_SelectedImage != null)
         {
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(m_SelectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            image_file = cursor.getString(columnIndex);
-            cursor.close();
+            try {
+                ParcelFileDescriptor descriptor = getContentResolver().openFileDescriptor(m_SelectedImage, "r");
+                if(descriptor != null)
+                {
+                    FileDescriptor fileDescriptor = descriptor.getFileDescriptor();
+                    image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+                    descriptor.close();
+                }
+            } catch(IOException e) {
+                Log.e("TAQUINDROID", "Couldn't open requested image file", e);
+            }
         }
+
+        if(image == null)
+            image = BitmapFactory.decodeResource(getResources(), R.drawable.image);
         
         // Set up the view
-        GameView game = new GameView(this, image_file, m_Width, m_Height);
+        GameView game = new GameView(this, image, m_Width, m_Height);
         game.setEndGameListener(this);
         setContentView(game);
     }

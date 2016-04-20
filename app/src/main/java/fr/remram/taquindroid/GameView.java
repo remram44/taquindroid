@@ -4,7 +4,6 @@ import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -42,12 +41,10 @@ public class GameView extends View {
     private int m_TileSizeY;
     private float m_TileAspect;
     private EndGameListener m_EndGameListener;
-    private Context m_Context;
 
-    public GameView(Context context, String image_file, int width, int height)
+    public GameView(Context context, Bitmap image, int width, int height)
     {
         super(context);
-        m_Context = context;
         m_Width = width;
         m_Height = height;
 
@@ -79,11 +76,6 @@ public class GameView extends View {
                 m_Grid[m_EmptyX][m_EmptyY] = -1;
             }
         }
-
-        // Load the wanted image, or the bundled one
-        Bitmap image = BitmapFactory.decodeFile(image_file);
-        if(image == null)
-            image = BitmapFactory.decodeResource(m_Context.getResources(), R.drawable.image);
 
         // Create the blocks
         int w = image.getWidth()/m_Width;
