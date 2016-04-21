@@ -18,7 +18,7 @@ public class Game extends Activity implements GameView.EndGameListener {
     private int m_Width;
     private int m_Height;
 
-    private Stopwatch m_GameTime = new Stopwatch();
+    private final Stopwatch m_GameTime = new Stopwatch();
 
     /** Called when the activity is first created. */
     @Override

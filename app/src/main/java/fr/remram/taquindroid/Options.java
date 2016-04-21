@@ -15,9 +15,9 @@ public class Options extends Activity {
     protected static final int REQ_PICK_IMAGE = 1;
     protected Uri m_SelectedImage = null;
     private int m_Size;
-    public static final int MIN_SIZE = 3;
-    public static final int MAX_SIZE = 8;
-    public static final int DEFAULT_SIZE = 3;
+    protected static final int MIN_SIZE = 3;
+    protected static final int MAX_SIZE = 8;
+    protected static final int DEFAULT_SIZE = 3;
 
     /** Called when the activity is first created. */
     @Override

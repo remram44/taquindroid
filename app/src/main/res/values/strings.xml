@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Taquindroid</string>
-    <string name="end_infos">Puzzle %1$dx%2$d solved!\nTime: %3$1fs, moves: %4$d</string>
+    <string name="end_info">Puzzle %1$dx%2$d solved!\nTime: %3$1fs, moves: %4$d</string>
     <string name="menu_play">Play</string>
     <string name="menu_options">Options</string>
     <string name="menu_scores">Scores</string>
@@ -9,7 +9,7 @@
     <string name="options_pick">Pick image</string>
     <string name="options_reset">Reset</string>
     <string name="options_cancel">Cancel</string>
-    <string name="options_ok">Ok</string>
+    <string name="options_ok">OK</string>
     <string name="change_size_title">Choose a size</string>
     <string-array name="change_size">
         <item>Size: 3x3</item>

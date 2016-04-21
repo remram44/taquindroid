@@ -2,7 +2,7 @@ package fr.remram.taquindroid;
 
 import android.os.SystemClock;
 
-public class Stopwatch {
+class Stopwatch {
 
     private long m_StartTime = -1;
     private long m_StopTime = -1;

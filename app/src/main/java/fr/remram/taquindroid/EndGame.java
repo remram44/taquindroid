@@ -33,7 +33,7 @@ public class EndGame extends Activity {
         int moves = intent.getIntExtra("moves", 0);
 
         TextView t = (TextView) findViewById(R.id.endgame_label);
-        t.setText(getString(R.string.end_infos, width, height, time, moves));
+        t.setText(getString(R.string.end_info, width, height, time, moves));
     }
 
 }
