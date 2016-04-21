@@ -17,17 +17,17 @@ public class Game extends Activity implements GameView.EndGameListener {
     private Uri m_SelectedImage = null;
     private int m_Width;
     private int m_Height;
-    
+
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        
+
         // Get the parameters from the Indent
         Intent intent = getIntent();
         m_Width = intent.getIntExtra("width", Options.DEFAULT_SIZE);
         m_Height = intent.getIntExtra("height", Options.DEFAULT_SIZE);
-        
+
         // Find the requested image
         m_SelectedImage = intent.getData();
         Bitmap image = null;
@@ -48,7 +48,7 @@ public class Game extends Activity implements GameView.EndGameListener {
 
         if(image == null)
             image = BitmapFactory.decodeResource(getResources(), R.drawable.image);
-        
+
         // Set up the view
         GameView game = new GameView(this, image, m_Width, m_Height);
         game.setEndGameListener(this);

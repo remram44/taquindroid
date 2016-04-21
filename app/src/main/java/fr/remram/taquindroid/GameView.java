@@ -17,11 +17,11 @@ import android.view.View;
 public class GameView extends View {
 
     private class Block {
-        
+
         int x;
         int y;
         Bitmap bitmap;
-        
+
     }
 
     public interface EndGameListener {
@@ -168,7 +168,7 @@ public class GameView extends View {
                 m_ActiveBlock = -1;
                 checkEnd();
             }
-            
+
             // Draw the other blocks
             for(int i = 0; i < m_Blocks.length; ++i)
             {

@@ -59,7 +59,7 @@ public class Menu extends Activity {
     protected void onActivityResult(int request_code, int result_code, Intent data)
     {
         super.onActivityResult(request_code, result_code, data);
-        
+
         switch(request_code)
         {
         case CHANGE_OPTIONS:

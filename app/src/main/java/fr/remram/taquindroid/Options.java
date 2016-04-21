@@ -32,7 +32,7 @@ public class Options extends Activity {
         m_Size = intent.getIntExtra("width", DEFAULT_SIZE);
         if(m_Size < MIN_SIZE || m_Size > MAX_SIZE)
             m_Size = DEFAULT_SIZE;
-        
+
         // The control used to change the grid's size
         final Button change_size = (Button) findViewById(R.id.change_size);
         final String[] sizes = getResources().getStringArray(R.array.change_size);
@@ -53,7 +53,7 @@ public class Options extends Activity {
                builder.create().show();
            }
         });
-        
+
         final Button change_image = (Button) findViewById(R.id.change_image);
         change_image.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -74,7 +74,7 @@ public class Options extends Activity {
                 }
             }
         });
-        
+
         final Button reset_image = (Button) findViewById(R.id.reset_image);
         reset_image.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -99,12 +99,13 @@ public class Options extends Activity {
     }
 
     /** Called when the image have been selected. */
-    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) { 
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent); 
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        switch(requestCode) { 
+        switch(requestCode) {
         case REQ_PICK_IMAGE:
-            if(resultCode == RESULT_OK){  
+            if(resultCode == RESULT_OK)
+            {
                 m_SelectedImage = imageReturnedIntent.getData();
                 updateImage();
             }
@@ -120,5 +121,5 @@ public class Options extends Activity {
         else
             image.setImageDrawable(getResources().getDrawable(R.drawable.image));
     }
-    
+
 }
