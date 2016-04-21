@@ -2,7 +2,7 @@
 
 "Jeu de taquin" for the Android platform.
 
-![download barcode](https://cloud.githubusercontent.com/assets/426784/14698425/984f0f0e-075c-11e6-828f-54beac7a1234.png)
+[![download barcode](https://cloud.githubusercontent.com/assets/426784/14716072/61a17a0c-07b9-11e6-9120-c4a6c9baf5c4.png)](https://git.io/vwWQw)
 
 The "taquin" is a sliding puzzle, also called 15 puzzle, game of 15, etc. The goal is to slide the tiles to reconstruct the original image, after they have been randomly shuffled. This app supports other sizes than 4x4 (which is the size that has 15 tiles).
 
