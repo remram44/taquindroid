@@ -97,6 +97,15 @@ public class Options extends Activity {
                 Options.this.finish();
             }
         });
+
+        final Button cancel = (Button) findViewById(R.id.options_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                Options.this.setResult(RESULT_CANCELED);
+                Options.this.finish();
+            }
+        });
     }
 
     /** Called when the image have been selected. */
