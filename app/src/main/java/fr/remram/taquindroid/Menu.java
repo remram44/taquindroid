@@ -15,6 +15,7 @@ public class Menu extends Activity {
     private int m_Height = 3;
 
     /** Called when the activity is first created. */
+    @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -56,6 +57,7 @@ public class Menu extends Activity {
         });
     }
 
+    @Override
     protected void onActivityResult(int request_code, int result_code, Intent data)
     {
         super.onActivityResult(request_code, result_code, data);

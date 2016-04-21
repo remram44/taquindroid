@@ -20,6 +20,7 @@ public class Options extends Activity {
     public static final int DEFAULT_SIZE = 3;
 
     /** Called when the activity is first created. */
+    @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -99,6 +100,7 @@ public class Options extends Activity {
     }
 
     /** Called when the image have been selected. */
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 

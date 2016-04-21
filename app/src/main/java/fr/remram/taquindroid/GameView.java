@@ -106,6 +106,7 @@ public class GameView extends View {
         m_EndGameListener = listener;
     }
 
+    @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh)
     {
         if(m_TileAspect != 0)
@@ -136,6 +137,7 @@ public class GameView extends View {
         canvas.drawLines(points, m_Paint);
     }
 
+    @Override
     public void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
@@ -180,6 +182,7 @@ public class GameView extends View {
         }
     }
 
+    @Override
     public boolean onTouchEvent(MotionEvent event)
     {
         if(event.getAction() == MotionEvent.ACTION_DOWN)

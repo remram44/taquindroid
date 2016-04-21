@@ -19,6 +19,7 @@ public class Game extends Activity implements GameView.EndGameListener {
     private int m_Height;
 
     /** Called when the activity is first created. */
+    @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -55,6 +56,7 @@ public class Game extends Activity implements GameView.EndGameListener {
         setContentView(game);
     }
 
+    @Override
     public void onGameEnded()
     {
         Intent end_game = new Intent();
