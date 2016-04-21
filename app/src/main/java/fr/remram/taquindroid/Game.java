@@ -18,6 +18,8 @@ public class Game extends Activity implements GameView.EndGameListener {
     private int m_Width;
     private int m_Height;
 
+    private Stopwatch m_GameTime = new Stopwatch();
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -57,13 +59,27 @@ public class Game extends Activity implements GameView.EndGameListener {
     }
 
     @Override
-    public void onGameEnded()
+    protected void onPause() {
+        super.onPause();
+        m_GameTime.stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        m_GameTime.start();
+    }
+
+    @Override
+    public void onGameEnded(int moves)
     {
         Intent end_game = new Intent();
         end_game.setClass(this, EndGame.class);
         end_game.setData(m_SelectedImage);
         end_game.putExtra("width", m_Width);
         end_game.putExtra("height", m_Height);
+        end_game.putExtra("time", m_GameTime.milliseconds());
+        end_game.putExtra("moves", moves);
         startActivity(end_game);
         finish();
     }

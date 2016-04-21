@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Taquindroid</string>
-    <string name="end_infos">Puzzle %1$dx%2$d solved!</string>
+    <string name="end_infos">Puzzle %1$dx%2$d solved!\nTime: %3$1fs, moves: %4$d</string>
     <string name="menu_play">Play</string>
     <string name="menu_options">Options</string>
     <string name="menu_scores">Scores</string>

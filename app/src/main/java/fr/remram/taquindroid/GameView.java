@@ -26,7 +26,7 @@ public class GameView extends View {
 
     public interface EndGameListener {
 
-        void onGameEnded();
+        void onGameEnded(int moves);
 
     }
 
@@ -41,6 +41,7 @@ public class GameView extends View {
     private int m_TileSizeY;
     private float m_TileAspect;
     private EndGameListener m_EndGameListener;
+    private int m_Moves = 0;
 
     public GameView(Context context, Bitmap image, int width, int height)
     {
@@ -168,6 +169,7 @@ public class GameView extends View {
                 m_Grid[m_EmptyX][m_EmptyY] = -1;
                 m_Grid[m_Blocks[m_ActiveBlock].x][m_Blocks[m_ActiveBlock].y] = m_ActiveBlock;
                 m_ActiveBlock = -1;
+                m_Moves++;
                 checkEnd();
             }
 
@@ -218,7 +220,7 @@ public class GameView extends View {
                 if(m_Grid[x][y] != y*m_Width + x)
                     return ;
             }
-        m_EndGameListener.onGameEnded();
+        m_EndGameListener.onGameEnded(m_Moves);
     }
 
 }
