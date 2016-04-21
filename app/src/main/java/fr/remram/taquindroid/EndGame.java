@@ -24,7 +24,7 @@ public class EndGame extends Activity {
         // Find the requested image
         Uri selectedImage = intent.getData();
         ImageView image = (ImageView) findViewById(R.id.endgame_image);
-        if(image != null)
+        if(selectedImage != null)
             image.setImageURI(selectedImage);
         else
             image.setImageDrawable(getResources().getDrawable(R.drawable.image));
