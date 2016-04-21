@@ -6,6 +6,8 @@
     <string name="menu_options">Options</string>
     <string name="menu_scores">Scores</string>
     <string name="menu_quit">Quitter</string>
+    <string name="options_pick">Changer l\'image</string>
+    <string name="options_reset">Remettre</string>
     <string name="options_cancel">Annuler</string>
     <string name="options_ok">Ok</string>
     <string name="change_size_title">Choisissez la taille</string>
