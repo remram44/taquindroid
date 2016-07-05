@@ -2,11 +2,14 @@ package fr.remram.taquindroid;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import java.io.FileDescriptor;
@@ -43,6 +46,14 @@ public class Game extends Activity implements GameView.EndGameListener {
                     FileDescriptor fileDescriptor = descriptor.getFileDescriptor();
                     image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
                     descriptor.close();
+
+                    int orientation = getOrientation(m_SelectedImage);
+                    if(orientation > 0)
+                    {
+                        Matrix matrix = new Matrix();
+                        matrix.postRotate(orientation);
+                        image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
+                    }
                 }
             } catch(IOException e) {
                 Log.e("TAQUINDROID", "Couldn't open requested image file", e);
@@ -82,6 +93,23 @@ public class Game extends Activity implements GameView.EndGameListener {
         end_game.putExtra("moves", moves);
         startActivity(end_game);
         finish();
+    }
+
+    // From http://stackoverflow.com/a/8661569/711380
+    public int getOrientation(Uri photoUri)
+    {
+        Cursor cursor = getContentResolver().query(photoUri,
+                new String[] { MediaStore.Images.ImageColumns.ORIENTATION }, null, null, null);
+
+        int result = -1;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                result = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+
+        return result;
     }
 
 }
