@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -128,7 +129,13 @@ public class Options extends Activity {
     {
         ImageView image = (ImageView) findViewById(R.id.preview_image);
         if(m_SelectedImage != null)
-            image.setImageURI(m_SelectedImage);
+        {
+            Matrix matrix = ImageTools.getImageMatrix(this, m_SelectedImage);
+            if(matrix == null)
+                image.setImageURI(m_SelectedImage);
+            else
+                image.setImageBitmap(ImageTools.getBitmap(this, m_SelectedImage));
+        }
         else
             image.setImageDrawable(getResources().getDrawable(R.drawable.image));
     }
