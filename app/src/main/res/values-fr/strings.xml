@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Taquindroid</string>
+    <string name="end_info">Puzzle %1$dx%2$d résolu !\nTemps : %3$1fs, movements : %4$d</string>
+    <string name="menu_play">Jouer</string>
+    <string name="menu_options">Options</string>
+    <string name="menu_scores">Scores</string>
+    <string name="menu_quit">Quitter</string>
+    <string name="options_pick">Changer l\'image</string>
+    <string name="options_reset">Remettre</string>
+    <string name="options_cancel">Annuler</string>
+    <string name="options_ok">Ok</string>
+    <string name="change_size_title">Choisissez la taille</string>
+    <string-array name="change_size">
+        <item>Taille : 3x3</item>
+        <item>Taille : 4x4</item>
+        <item>Taille : 5x5</item>
+        <item>Taille : 6x6</item>
+        <item>Taille : 7x7</item>
+        <item>Taille : 8x8</item>
+    </string-array>
+</resources>

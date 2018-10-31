@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    <LinearLayout android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10">
+        <LinearLayout android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
+            <Button android:id="@+id/change_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:text="@string/options_pick"/>
+            <Button android:id="@+id/reset_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/options_reset"/>
+        </LinearLayout>
+        <ImageView android:id="@+id/preview_image"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@drawable/image"/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <Button android:id="@+id/change_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@array/change_size"/>
+        <Button android:id="@+id/options_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/options_cancel"/>
+        <FrameLayout android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"/>
+        <Button android:id="@+id/options_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/options_ok"/>
+    </LinearLayout>
+</LinearLayout>
